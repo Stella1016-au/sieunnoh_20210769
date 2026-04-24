@@ -5,5 +5,8 @@ function setup() {
 function draw() {
   background(220);
 }
-\wew
+//컴퓨터2입니다
 
+function draw(){
+  
+}
