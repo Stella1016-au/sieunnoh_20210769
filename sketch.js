@@ -1,43 +1,34 @@
-let px,py;
-let pd = 30;
+let img;
 
-let dx = [100,200,300,400,500];
-let dy = [150,250,350,450,550];
-let dSize = 15;
-let dActive = [true,true,true,true,true];
-
-let score = 0;
+function preload(){
+  img = loadImage("Map.png");//이미지 로드
+}
 
 function setup(){
-  createCanvas(600,400);
-  px = width/2;
-  py = height/2;
+    createCanvas(1408,718);
+    image(img,0,0,1408,718);
+
+    noStroke();
+    rect(0,0,160,320);
+    rect(160,240,120,80);
+    rect(0,390,180,330);
+    rect(180,390,100,80);
+
+    rect(1220,0,188,320);
+    rect(1120,240,120,80);
+    rect(1120,390,120,80);
+    rect(1229,390,188,330);
+
+    rect(0,0,1408,20);
+    rect(0,700,1408,20);
+
+
 }
 
 function draw(){
-  background(30);
+  if(mouseIsPressed===true){
+    console.log(mouseX,mouseY);
 
-  if(keyIsDown(LEFT_ARROW)) px-=3;
-  if(keyIsDown(RIGHT_ARROW)) px+=3;
-  if(keyIsDown(UP_ARROW)) py-=3;
-  if(keyIsDown(DOWN_ARROW)) py+=3;
-
-  fill(255,255,0);
-  ellipse(px,py,pd);//팩맨 본체
-
-  for(let i = 0; i<5; i++){
-    if(dActive[i]===true){
-      fill(255,100,100);
-      ellipse(dx[i],dy[i],dSize);
-   
-
-  let distance = dist(px,py,dx[i],dy[i]);
-
-  if(distance<(pd/2)+(dSize/2)){
-    dActive[i]=false;
+    
   }
-   }
-  }
-
-
 }
