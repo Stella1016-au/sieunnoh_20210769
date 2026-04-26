@@ -77,4 +77,8 @@ function draw() {
   if (mouseIsPressed === true) {
     console.log(mouseX, mouseY);
   }
+
+  fill(255,255,0);
+  arc(80,350,30,30,PI/4,PI*7/4);
+
 }
