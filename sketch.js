@@ -58,16 +58,19 @@ function draw() {
   if(keyIsDown(DOWN_ARROW))nextY+=3;
 
   //충돌하지 않으면, 계속이동한다.
-  if(!isColliding(px,py,r)){
+  if(!isColliding(nextX,py,r)){
     px = nextX;
+  }
+  if(!isColliding(px, nextY, r)){
     py = nextY;
   }
 
   fill(255,255,255,0);
   noStroke();
-  for(let wall of walls){
-    rect(wall.x,wall.y,wall.w,wall.h);
-  }
+
+  // for(let wall of walls){
+  //   rect(wall.x,wall.y,wall.w,wall.h);
+  // }
 
   fill(255,255,0,255);
   arc(px,py,r*2,r*2,PI/4,PI*7/4);//팩맨
