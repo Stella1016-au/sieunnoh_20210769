@@ -1,7 +1,7 @@
 let img;
 let px=80;
 let py=350;//팩맨 위치
-let r = 15;//팩맨의 반지름
+let r = 12;//팩맨의 반지름
 
 let walls = [
   // 외곽 테두리
@@ -32,7 +32,7 @@ let walls = [
   {x: 760, y: 510, w: 175, h: 20}, {x: 760, y: 615, w: 380, h: 15},
   {x: 845, y: 565, w: 20, h: 60}, {x: 920, y: 565, w: 65, h: 20},
   {x: 990, y: 510, w: 80, h: 20}, {x: 1010, y: 510, w: 60, h: 120},
-  {x: 1125, y: 510, w: 20, h: 80}, {x: 690, y: 0, w: 30, h: 125}
+  {x: 1125, y: 510, w: 20, h: 75}, {x: 690, y: 0, w: 30, h: 125}
 ];
 
 function preload() {
@@ -46,18 +46,25 @@ function setup() {
 
 function draw() {
   background(3,9,65,255);
-  drawWall();//외곽벽 그리기
 
+  fill(255,255,0,255);
+  noStroke();
+  
+  //1. 외곽벽 그리기
+  for(let wall of walls){
+    rect(wall.x,wall.y,wall.w,wall.h);
+  }
+  //움직일위치 = 현재위치
   let nextX = px;
   let nextY = py;
   
   //팩맨 움직임 구현
-  if(keyIsDown(LEFT_ARROW)) nextX-=3;
+  if(keyIsDown(LEFT_ARROW))nextX-=3;
   if(keyIsDown(RIGHT_ARROW))nextX+=3;
   if(keyIsDown(UP_ARROW))nextY-=3;
   if(keyIsDown(DOWN_ARROW))nextY+=3;
 
-  //충돌하지 않으면, 계속이동한다.
+  //2. 충돌하지 않으면, 계속이동한다.
   if(!isColliding(nextX,py,r)){
     px = nextX;
   }
@@ -65,15 +72,9 @@ function draw() {
     py = nextY;
   }
 
-  fill(255,255,255,0);
   noStroke();
-
-  // for(let wall of walls){
-  //   rect(wall.x,wall.y,wall.w,wall.h);
-  // }
-
   fill(255,255,0,255);
-  arc(px,py,r*2,r*2,PI/4,PI*7/4);//팩맨
+  arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
 
   if (mouseIsPressed === true) {
     let c = get(mouseX, mouseY); 
@@ -83,83 +84,19 @@ function draw() {
  
 }
 
+///3. 충돌함수
 function isColliding(nx,ny,r){
   for(let wall of walls){
 
+    //범위내의 모든 점의 좌표를 반환
     let closestX = constrain(nx, wall.x, wall.x + wall.w);
     let closestY = constrain(ny, wall.y, wall.y + wall.h);
 
+    //벽내부의 모든 점과 팩맨의 중심점 사이의 거리를 계산
     let d = dist(nx,ny,closestX,closestY);
-
+    //충돌했다?==거리가 반지름보다 작다.
     if(d<r) return true;
   }
   return false;
-}
-
-function drawWall(){
-  //외곽테두리
-  noStroke(); 
-  // Fill(255,255,255,255);
-  rect(0, 0, 180, 320);
-  rect(160, 240, 120, 80);
-  rect(0, 390, 200, 330);
-  rect(180, 390, 100, 80);
-
-  rect(1220, 0, 188, 320);
-  rect(1120, 240, 120, 80);
-  rect(1120, 390, 120, 80);
-  rect(1210, 390, 300, 330);
-
-  rect(0, 0, 1408, 30);
-  rect(0, 690, 1408, 40);
-
-  //내부 벽
-  rect(230,80,80,45);
-  rect(365,80,270,45);
-  rect(770,80,270,45);
-  rect(1100,80,80,45);
-
-  rect(230,175,80,20);
-  rect(345,175,135,20);
-  rect(345,175,30,90);
-  rect(537,170,30,165);
-  rect(430,240,210,20);
-  rect(615,175,175,20);
-  rect(690,175,30,85);
-  rect(840,170,30,165);
-  rect(765,243,210,20);
-  rect(923,175,140,20);
-  rect(1030,175,35,90);
-  rect(1095,175,80,20);
-
-  rect(375,310,105,90);
-  rect(620,310,170,90);
-  rect(925,310,105,90);
-
-  rect(340,445,140,20);
-  rect(537,375,30,95);
-  rect(620,445,170,20);
-  rect(690,445,20,80);
-  rect(840,375,30,95);
-  rect(925,445,140,20);
-
-  rect(260,510,20,70);
-  rect(340,510,45,110);
-  rect(340,510,70,20);
-  rect(260,615,380,20);
-  rect(532,560,30,60);
-  rect(415,565,65,20);
-  rect(465,510,175,20);
-  rect(620,565,170,20);
-  rect(690,565,20,80);
-  rect(760,510,175,20);
-  rect(760,615,380,15);
-  rect(845,565,20,60);
-  rect(920,565,65,20);
-  rect(990,510,80,20);
-  rect(1010,510,60,120);
-  rect(1125,510,20,80);
-
-  rect(690,0,30,125);
-
+  //false를 반환하면 충돌x. 따라서 계속 이동
 }
