@@ -45,8 +45,8 @@ function setup() {
   createCanvas(1408, 718);
   //image(img, 0, 0, 1408, 718);
 
-  for(let x = 40; x<1408; x+=40){
-    for(let y = 40; y<718; y+=40){
+  for(let x = 50; x<1408; x+=50){
+    for(let y = 50; y<718; y+=50){
       if(!isColliding(x,y,10)){
         dots.push({x:x,y:y,eaten:false});
       }
@@ -87,7 +87,6 @@ function draw() {
   arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
 
   //콩그리기
-
   for(let d of dots){
     if(!d.eaten){
       fill(255,184,151);
@@ -105,6 +104,11 @@ function draw() {
   textSize(24);
   textAlign(LEFT,TOP);
   text("Score: "+score,50,40);
+
+  if(px<0||px>1408){
+    px=80;
+    py=350;
+  }
 
   if (mouseIsPressed === true) {
     let c = get(mouseX, mouseY); 
