@@ -4,6 +4,12 @@ let py=350;//팩맨 위치
 let r = 12;//팩맨의 반지름
 let dots = [];//콩들을 저장할 배열
 let score = 0;//점수 변수
+let monsterX = [];
+let monsterY = [];
+let monsterDir = [];
+let monsterColors = [];
+let monsterCount = 5;
+let mSpeed = 2;
 
 let walls = [
   // 외곽 테두리
@@ -52,7 +58,21 @@ function setup() {
       }
     }
   }
+  for(let i = 0; i< monsterCount; i++){
+  let rx, ry;
+  do{
+    rx = random(width);
+    ry = random(height);
+  }while(isColliding(rx,ry,20)||dist(rx,ry,px,py)<200);
+
+  monsterX.push(rx);
+  monsterY.push(ry);
+  monsterDir.push(floor(random(4)));
+  monsterColors.push(color(random(255),random(100),random(100)));
+  }
 }
+
+
 
 function draw() {
   background(3,9,65,255);
@@ -99,7 +119,7 @@ function draw() {
       }
     }
   }
-
+//점수표시
   fill(255);
   textSize(24);
   textAlign(LEFT,TOP);
@@ -108,6 +128,39 @@ function draw() {
   if(px<0||px>1408){
     px=80;
     py=350;
+  }//루프
+
+  //몬스터 로직
+  for(let i = 0;i< monsterCount; i++){
+    let mxNextX = monsterX[i];
+    let mxNextY = monsterY[i];
+
+    if(monsterDir[i]===0) mxNextX-= mSpeed;
+    else if (monsterDir[i] === 1) mxNextX += mSpeed;
+    else if (monsterDir[i] === 2) mxNextY -= mSpeed;
+    else if (monsterDir[i] === 3) mxNextY += mSpeed;
+
+    if(!isColliding(mxNextX,mxNextY,15)){
+      monsterX[i]=mxNextX;
+      monsterY[i]=mxNextY;
+
+      if(random(1)<0.02) monsterDir[i]=floor(random(4));
+    }else{
+      monsterDir[i]=floor(random(4));
+    }
+
+    // 3. 몬스터 그리기
+    fill(monsterColors[i]);
+    rectMode(CENTER);
+    rect(monsterX[i], monsterY[i], 30, 30, 5);
+    rectMode(CORNER);
+
+    // 4. 팩맨과 충돌 체크
+    if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
+      // 충돌 시 초기 위치로 리셋 (임시)
+      px = 80; 
+      py = 350;
+    }
   }
 
   if (mouseIsPressed === true) {
