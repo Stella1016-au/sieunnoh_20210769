@@ -1,4 +1,6 @@
 let img;
+let px=80;
+let py=350;//팩맨 위치
 
 function preload() {
   img = loadImage("Map.png"); //이미지 로드
@@ -7,21 +9,49 @@ function preload() {
 function setup() {
   createCanvas(1408, 718);
   image(img, 0, 0, 1408, 718);
+  
+  
+  
 
+}
+
+function draw() {
+
+  background(3,9,65,255);
+  drawWall();
+
+  if (mouseIsPressed === true) {
+    let c = get(mouseX, mouseY); 
+    console.log(c);
+    console.log(mouseX, mouseY);
+  }
+
+  fill(255,255,0);
+  //arc(80,350,30,30,PI/4,PI*7/4);//팩맨
+  arc(px,py,30,30,PI/4,PI*7/4);//팩맨
+  if(keyIsDown(LEFT_ARROW))px-=3;
+  if(keyIsDown(RIGHT_ARROW))px+=3;
+  if(keyIsDown(UP_ARROW))py-=3;
+  if(keyIsDown(DOWN_ARROW))py+=3;
+
+}
+
+function drawWall(){
   //외곽테두리
-  noStroke();
-  rect(0, 0, 160, 320);
+  noStroke(); 
+  // Fill(255,255,255,255);
+  rect(0, 0, 180, 320);
   rect(160, 240, 120, 80);
-  rect(0, 390, 180, 330);
+  rect(0, 390, 200, 330);
   rect(180, 390, 100, 80);
 
   rect(1220, 0, 188, 320);
   rect(1120, 240, 120, 80);
   rect(1120, 390, 120, 80);
-  rect(1229, 390, 188, 330);
+  rect(1210, 390, 300, 330);
 
-  rect(0, 0, 1408, 20);
-  rect(0, 700, 1408, 20);
+  rect(0, 0, 1408, 30);
+  rect(0, 690, 1408, 40);
 
   //내부 벽
   rect(230,80,80,45);
@@ -71,14 +101,5 @@ function setup() {
   rect(1125,510,20,80);
 
   rect(690,0,30,125);
-}
-
-function draw() {
-  if (mouseIsPressed === true) {
-    console.log(mouseX, mouseY);
-  }
-
-  fill(255,255,0);
-  arc(80,350,30,30,PI/4,PI*7/4);
 
 }
