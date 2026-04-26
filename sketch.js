@@ -2,6 +2,8 @@ let img;
 let px=80;
 let py=350;//팩맨 위치
 let r = 12;//팩맨의 반지름
+let dots = [];//콩들을 저장할 배열
+let score = 0;//점수 변수
 
 let walls = [
   // 외곽 테두리
@@ -42,6 +44,14 @@ function preload() {
 function setup() {
   createCanvas(1408, 718);
   //image(img, 0, 0, 1408, 718);
+
+  for(let x = 40; x<1408; x+=40){
+    for(let y = 40; y<718; y+=40){
+      if(!isColliding(x,y,10)){
+        dots.push({x:x,y:y,eaten:false});
+      }
+    }
+  }
 }
 
 function draw() {
@@ -75,6 +85,26 @@ function draw() {
   noStroke();
   fill(255,255,0,255);
   arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
+
+  //콩그리기
+
+  for(let d of dots){
+    if(!d.eaten){
+      fill(255,184,151);
+      ellipse(d.x,d.y,6,6);
+
+      let distToPacman = dist(px,py,d.x,d.y);
+      if(distToPacman<r+3){
+        d.eaten = true;
+        score += 10;
+      }
+    }
+  }
+
+  fill(255);
+  textSize(24);
+  textAlign(LEFT,TOP);
+  text("Score: "+score,50,40);
 
   if (mouseIsPressed === true) {
     let c = get(mouseX, mouseY); 
