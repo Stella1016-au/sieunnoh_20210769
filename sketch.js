@@ -158,8 +158,10 @@ function draw() {
     // 4. 팩맨과 충돌 체크
     if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
       // 충돌 시 초기 위치로 리셋 (임시)
-      px = 80; 
-      py = 350;
+      alert("몬스터에게 잡혔습니다! 게임을 다시 시작합니다."); // 알림 메시지 (선택 사항)
+      resetGame();
+      // px = 80; 
+      // py = 350;
     }
   }
 
@@ -187,3 +189,35 @@ function isColliding(nx,ny,r){
   return false;
   //false를 반환하면 충돌x. 따라서 계속 이동
 }
+
+function resetGame(){
+  score = 0;
+  px = 80;
+  py = 350;
+
+  dots = [];
+  for(let x = 50; x<1408; x+=50){
+    for(let y = 50; y<718; y==50){
+      if(!isColliding(x,y,10)){
+        dots.push({x:x,y:y,eaten:false});
+      }
+    }
+  }
+
+  monsterX=[];
+  monsterY=[];
+  monsterDir=[];
+  monsterColors=[];
+  for(let i = 0;i<monsterCount;i++){
+    let rx,ry;
+    do{
+      rx = random(width);
+      ry = random(height);
+    } while (isColliding(rx, ry, 20) || dist(rx, ry, px, py) < 200);
+    monsterX.push(rx);
+    monsterY.push(ry);
+    monsterDir.push(floor(random(4)));
+    monsterColors.push(color(random(255), random(100), random(100)));
+  
+  }
+  }
