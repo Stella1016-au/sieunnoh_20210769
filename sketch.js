@@ -70,6 +70,14 @@ function draw() {
   }else if(gameState === "gameOver"){
     drawRestartButton();
   }
+
+  //점수표시
+  fill(255);
+  textSize(24);
+  textAlign(LEFT,TOP);
+  text("Score: "+score,50,40);
+
+function playGame(){
   //움직일위치 = 현재위치
   let nextX = px;
   let nextY = py;
@@ -105,16 +113,6 @@ function draw() {
       }
     }
   }
-//점수표시
-  fill(255);
-  textSize(24);
-  textAlign(LEFT,TOP);
-  text("Score: "+score,50,40);
-
-  if(px<0||px>1408){
-    px=80;
-    py=350;
-  }//루프
 
   //몬스터 로직
   for(let i = 0;i< monsterCount; i++){
@@ -143,20 +141,34 @@ function draw() {
 
     // 팩맨과 충돌 체크
     if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
-      // 충돌 시 초기 위치로 리셋 (임시)
-      alert("몬스터에게 잡혔습니다! 게임을 다시 시작합니다."); // 알림 메시지 (선택 사항)
-      resetGame();
-      // px = 80; 
-      // py = 350;
+      gameState = "gameOver";//상태 변경
     }
   }
+  if(px<0||px>1408){
+    px=80;
+    py=350;
+  }//루프
+  }
+  
+ 
+  
+
+  
+
+
+  
+
+  
+
+    
+    
 
   if (mouseIsPressed === true) {
     // let c = get(mouseX, mouseY); 
     // console.log(c);
     // console.log(mouseX, mouseY);
 
-      if(mouseX>width/2-125&&mouseX<width/2&&mouseY>height/2-40&&mouseY<height/2+40){
+      if(mouseX>width/2+125&&mouseX<width/2&&mouseY>height/2-40&&mouseY<height/2+40){
         resetGame();
       }
 
