@@ -76,6 +76,7 @@ function draw() {
   textSize(24);
   textAlign(LEFT,TOP);
   text("Score: "+score,50,40);
+}
 
 function playGame(){
   //움직일위치 = 현재위치
@@ -150,31 +151,14 @@ function playGame(){
   }//루프
   }
   
- 
-  
-
-  
-
-
-  
-
-  
-
-    
-    
-
-  if (mouseIsPressed === true) {
-    // let c = get(mouseX, mouseY); 
-    // console.log(c);
-    // console.log(mouseX, mouseY);
-
-      if(mouseX>width/2+125&&mouseX<width/2&&mouseY>height/2-40&&mouseY<height/2+40){
+function mousePressed(){
+  if(gameState==="gameOver"){
+    if(mouseX>width/2 - 125 && mouseX<width/2 + 125&&
+      mouseY>height/2 - 40 && mouseY<height/2+40){
         resetGame();
       }
-
   }
- 
-}
+}  
 
 ///충돌함수
 function isColliding(nx,ny,r){
