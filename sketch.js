@@ -54,8 +54,6 @@ function setup() {
   resetGame();// 초기 설정 통합
 }
 
-
-
 function draw() {
   background(3,9,65,255);
 
@@ -191,7 +189,7 @@ function resetGame(){
 
   dots = [];
   for(let x = 50; x<1408; x+=50){
-    for(let y = 50; y<718; y==50){
+    for(let y = 50; y<718; y+=50){
       if(!isColliding(x,y,10)){
         dots.push({x:x,y:y,eaten:false});
       }
