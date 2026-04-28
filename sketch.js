@@ -136,6 +136,22 @@ function playGame(){
       monsterDir[i]=floor(random(4));
     }
 
+    //---몬스터 워프 및 재생성 루프---
+    //1.왼쪽 통로로 완전히 나갔을때->오른쪽 통로로 등장
+    if(monsterX[i]<0){
+      monsterX[i]=rightPassage.x;
+      monsterY[i]=rightPassage.y;
+    }
+    //2.오른쪽 통로로 완전히 나갔을때->왼쪽 통로로 등장
+    else if(monster[i]>width){
+      monsterX[i]=leftPassage.x;
+      monsterY[i]=leftPassage.y;
+    }
+    //3.상하 등 통로가 아닌 곳으로 튕겨나갔을경우 안전하게 위치 재배정(고정5마리 유지)
+    if(monsterY[i]<0||monsterY[i]>height){
+      assignSafeLocation(i);
+    }
+
     // 몬스터 그리기
     fill(monsterColors[i]);
     rectMode(CENTER);
@@ -152,6 +168,17 @@ function playGame(){
     py=350;
   }//루프
   }
+
+function assignSafeLocation(index){
+  let rx, ry, attempts = 0;
+  do{
+    rx = random(200,width-200);
+    ry = random(100,height-100);
+    attempts++;
+  }while((isColliding(rx,ry,20)||dist(rx,ry,px,py)<300)&&sttempts<500);
+  monsterX[index]=rx;
+  monsterY[index]=ry;
+}
 
 function drawRestartButton(){
     fill(0,0,0,180);
@@ -185,29 +212,19 @@ function resetGame(){
   gameState = "play";
 
   dots = [];
-  for(let x = 50; x<1408; x+=50){
-    for(let y = 50; y<718; y+=50){
-      if(!isColliding(x,y,10)){
-        dots.push({x:x,y:y,eaten:false});
-      }
+  for (let x = 100; x < width - 100; x += 80) {
+    for (let y = 100; y < height - 100; y += 80) {
+      if (!isColliding(x, y, 10)) dots.push({ x: x, y: y, eaten: false });
     }
   }
-
   monsterX=[];
   monsterY=[];
   monsterDir=[];
   monsterColors=[];
-  for(let i = 0;i<monsterCount;i++){
-    let rx,ry;
-    do{
-      rx = random(width);
-      ry = random(height);
-    } while (isColliding(rx, ry, 20) || dist(rx, ry, px, py) < 200);
-    monsterX.push(rx);
-    monsterY.push(ry);
-    monsterDir.push(floor(random(4)));
+  for (let i = 0; i < monsterCount; i++) {
     monsterColors.push(color(random(255), random(100), random(100)));
-  
+    monsterDir.push(floor(random(4)));
+    assignSafeLocation(i); // 초기 위치 설정
   }
   }
 ///충돌함수
