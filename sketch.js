@@ -51,8 +51,8 @@ function setup() {
   createCanvas(1408, 718);
   //image(img, 0, 0, 1408, 718);
 
-  for(let x = 50; x<1408; x+=50){
-    for(let y = 50; y<718; y+=50){
+  for(let x = 50; x<1408; x+=100){
+    for(let y = 50; y<718; y+=100){
       if(!isColliding(x,y,10)){
         dots.push({x:x,y:y,eaten:false});
       }
