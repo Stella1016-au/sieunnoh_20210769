@@ -4,6 +4,7 @@ let py=350;//팩맨 위치
 let r = 12;//팩맨의 반지름
 let dots = [];//콩들을 저장할 배열
 let score = 0;//점수 변수
+let lives = 5;//플레이어의 초기 생명 설정
 let monsterX = [];
 let monsterY = [];
 let monsterDir = [];
@@ -70,11 +71,14 @@ function draw() {
     drawRestartButton();
   }
 
-  //점수표시
+  //상단 UI 표시 (점수 및 생명)
   fill(255);
   textSize(24);
   textAlign(LEFT,TOP);
   text("Score: "+score,50,40);
+
+  fill(255,0,0);
+  text("Lives:"+lives,200,40);
 }
 
 function playGame(){
@@ -96,7 +100,7 @@ function playGame(){
     py = nextY;
   }
 
-  //팩맨 통로 워프
+  //팩맨 통로 워프 로직
   if (px<30){px=rightPassage.x;py=rightPassage.y;}
   else if(px>1380){px=leftPassage.x;py=leftPassage.y;}
 
@@ -143,7 +147,7 @@ function playGame(){
       monsterY[i]=rightPassage.y;
     }
     //2.오른쪽 통로로 완전히 나갔을때->왼쪽 통로로 등장
-    else if(monster[i]>width){
+    else if(monsterX[i]>width){
       monsterX[i]=leftPassage.x;
       monsterY[i]=leftPassage.y;
     }
@@ -160,7 +164,17 @@ function playGame(){
 
     // 팩맨과 충돌 체크
     if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
-      gameState = "gameOver";//상태 변경
+      lives-=1;//생명 1 감소
+
+      if(lives>0){
+        //생명이 남았다면 위치만 리셋
+        px=80;
+        py=350;
+      }else{
+        //생명이 0이면 게임오버
+        gameState="gameOver";
+      }
+      
     }
   }
   if(px<0||px>1408){
@@ -175,7 +189,7 @@ function assignSafeLocation(index){
     rx = random(200,width-200);
     ry = random(100,height-100);
     attempts++;
-  }while((isColliding(rx,ry,20)||dist(rx,ry,px,py)<300)&&sttempts<500);
+  }while((isColliding(rx,ry,20)||dist(rx,ry,px,py)<300)&&attempts<500);
   monsterX[index]=rx;
   monsterY[index]=ry;
 }
@@ -207,6 +221,7 @@ function mousePressed(){
 
 function resetGame(){
   score = 0;
+  lives = 5;
   px = 80;
   py = 350;
   gameState = "play";
