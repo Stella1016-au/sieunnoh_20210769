@@ -10,7 +10,6 @@ let monsterDir = [];
 let monsterColors = [];
 let monsterCount = 5;
 let mSpeed = 2;
-
 let gameState = "play";
 
 let walls = [
@@ -44,10 +43,6 @@ let walls = [
   {x: 990, y: 510, w: 80, h: 20}, {x: 1010, y: 510, w: 60, h: 120},
   {x: 1125, y: 510, w: 20, h: 75}, {x: 690, y: 0, w: 30, h: 125}
 ];
-
-function preload() {
-  //img = loadImage("Map.png"); //이미지 로드
-}
 
 function setup() {
   createCanvas(1408, 718);
@@ -97,7 +92,6 @@ function playGame(){
     py = nextY;
   }
 
-  noStroke();
   fill(255,255,0,255);
   arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
 
@@ -150,32 +144,31 @@ function playGame(){
     py=350;
   }//루프
   }
+
+function drawRestartButton(){
+    fill(0,0,0,180);
+    rect(0,0,width,height);
+
+    fill(255,255,0);
+    rectMode(CENTER);
+    rect(width/2,height/2,250,80,10);
+
+    fill(0);
+    textSize(32);
+    textAlign(CENTER,CENTER);
+    text("RESTART",width/2,height/2);
+    rectMode(CORNER);
+  }
+
   
 function mousePressed(){
   if(gameState==="gameOver"){
     if(mouseX>width/2 - 125 && mouseX<width/2 + 125&&
       mouseY>height/2 - 40 && mouseY<height/2+40){
         resetGame();
-      }
+    }
   }
 }  
-
-///충돌함수
-function isColliding(nx,ny,r){
-  for(let wall of walls){
-
-    //범위내의 모든 점의 좌표를 반환
-    let closestX = constrain(nx, wall.x, wall.x + wall.w);
-    let closestY = constrain(ny, wall.y, wall.y + wall.h);
-
-    //벽내부의 모든 점과 팩맨의 중심점 사이의 거리를 계산
-    let d = dist(nx,ny,closestX,closestY);
-    //충돌했다?==거리가 반지름보다 작다.
-    if(d<r) return true;
-  }
-  return false;
-  //false를 반환하면 충돌x. 따라서 계속 이동
-}
 
 function resetGame(){
   score = 0;
@@ -209,18 +202,23 @@ function resetGame(){
   
   }
   }
+///충돌함수
+function isColliding(nx,ny,r){
+  for(let wall of walls){
 
-  function drawRestartButton(){
-    fill(0,0,0,150);
-    rect(0,0,width,height);
+    //범위내의 모든 점의 좌표를 반환
+    let closestX = constrain(nx, wall.x, wall.x + wall.w);
+    let closestY = constrain(ny, wall.y, wall.y + wall.h);
 
-    fill(255,255,0);
-    rectMode(CENTER);
-    rect(width/2,height/2,250,80,10);
-
-    fill(0);
-    textSize(32);
-    textAlign(CENTER,CENTER);
-    text("RESTART",width/2,height/2);
-    rectMode(CORNER);
+    //벽내부의 모든 점과 팩맨의 중심점 사이의 거리를 계산
+    let d = dist(nx,ny,closestX,closestY);
+    //충돌했다?==거리가 반지름보다 작다.
+    if(d<r) return true;
   }
+  return false;
+  //false를 반환하면 충돌x. 따라서 계속 이동
+}
+
+
+
+  
