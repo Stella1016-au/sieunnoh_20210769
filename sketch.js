@@ -12,6 +12,10 @@ let monsterCount = 5;
 let mSpeed = 2;
 let gameState = "play";
 
+//통로 좌표 설정
+const leftPassage = {x:80, y:350};
+const rightPassage = {x:1350, y:350};
+
 let walls = [
   // 외곽 테두리
   {x: 0, y: 0, w: 180, h: 320}, {x: 160, y: 240, w: 120, h: 80},
@@ -91,6 +95,10 @@ function playGame(){
   if(!isColliding(px, nextY, r)){
     py = nextY;
   }
+
+  //팩맨 통로 워프
+  if (px<30){px=rightPassage.x;py=rightPassage.y;}
+  else if(px>1380){px=leftPassage.x;py=leftPassage.y;}
 
   fill(255,255,0,255);
   arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
