@@ -11,6 +11,8 @@ let monsterColors = [];
 let monsterCount = 5;
 let mSpeed = 2;
 
+let gameState = "play";
+
 let walls = [
   // 외곽 테두리
   {x: 0, y: 0, w: 180, h: 320}, {x: 160, y: 240, w: 120, h: 80},
@@ -49,7 +51,7 @@ function preload() {
 
 function setup() {
   createCanvas(1408, 718);
-  //image(img, 0, 0, 1408, 718);
+  resetGame();// 초기 설정 통합
 
   for(let x = 50; x<1408; x+=100){
     for(let y = 50; y<718; y+=100){
@@ -83,6 +85,12 @@ function draw() {
   //외곽벽 그리기
   for(let wall of walls){
     rect(wall.x,wall.y,wall.w,wall.h);
+  }
+
+  if(gameState === "play"){
+    playGame();//실제 게임 로직
+  }else if(gameState === "gameOver"){
+    drawRestartButton();
   }
   //움직일위치 = 현재위치
   let nextX = px;
@@ -166,9 +174,14 @@ function draw() {
   }
 
   if (mouseIsPressed === true) {
-    let c = get(mouseX, mouseY); 
-    console.log(c);
-    console.log(mouseX, mouseY);
+    // let c = get(mouseX, mouseY); 
+    // console.log(c);
+    // console.log(mouseX, mouseY);
+
+      if(mouseX>width/2-125&&mouseX<width/2&&mouseY>height/2-40&&mouseY<height/2+40){
+        resetGame();
+      }
+
   }
  
 }
@@ -194,6 +207,7 @@ function resetGame(){
   score = 0;
   px = 80;
   py = 350;
+  gameState = 'play';
 
   dots = [];
   for(let x = 50; x<1408; x+=50){
@@ -220,4 +234,19 @@ function resetGame(){
     monsterColors.push(color(random(255), random(100), random(100)));
   
   }
+  }
+
+  function drawRestartButton(){
+    fill(0,0,0,150);
+    rect(0,0,width,height);
+
+    fill(255,255,0);
+    rectMode(CENTER);
+    rect(width/2,height/2,250,80,10);
+
+    fill(0);
+    textSize(32);
+    textAlign(CENTER,CENTER);
+    text("RESTART",width/2,height/2);
+    rectMode(CORNER);
   }
