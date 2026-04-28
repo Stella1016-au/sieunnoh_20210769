@@ -181,7 +181,7 @@ function resetGame(){
   score = 0;
   px = 80;
   py = 350;
-  gameState = 'play';
+  gameState = "play";
 
   dots = [];
   for(let x = 50; x<1408; x+=50){
