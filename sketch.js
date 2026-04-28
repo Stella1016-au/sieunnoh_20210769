@@ -80,7 +80,7 @@ function draw() {
   fill(255,255,0,255);
   noStroke();
   
-  //1. 외곽벽 그리기
+  //외곽벽 그리기
   for(let wall of walls){
     rect(wall.x,wall.y,wall.w,wall.h);
   }
@@ -94,7 +94,7 @@ function draw() {
   if(keyIsDown(UP_ARROW))nextY-=3;
   if(keyIsDown(DOWN_ARROW))nextY+=3;
 
-  //2. 충돌하지 않으면, 계속이동한다.
+  //충돌하지 않으면, 계속이동한다.
   if(!isColliding(nextX,py,r)){
     px = nextX;
   }
@@ -149,13 +149,13 @@ function draw() {
       monsterDir[i]=floor(random(4));
     }
 
-    // 3. 몬스터 그리기
+    // 몬스터 그리기
     fill(monsterColors[i]);
     rectMode(CENTER);
     rect(monsterX[i], monsterY[i], 30, 30, 5);
     rectMode(CORNER);
 
-    // 4. 팩맨과 충돌 체크
+    // 팩맨과 충돌 체크
     if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
       // 충돌 시 초기 위치로 리셋 (임시)
       alert("몬스터에게 잡혔습니다! 게임을 다시 시작합니다."); // 알림 메시지 (선택 사항)
@@ -173,7 +173,7 @@ function draw() {
  
 }
 
-///3. 충돌함수
+///충돌함수
 function isColliding(nx,ny,r){
   for(let wall of walls){
 
