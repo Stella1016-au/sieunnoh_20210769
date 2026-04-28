@@ -52,26 +52,6 @@ function preload() {
 function setup() {
   createCanvas(1408, 718);
   resetGame();// 초기 설정 통합
-
-  for(let x = 50; x<1408; x+=100){
-    for(let y = 50; y<718; y+=100){
-      if(!isColliding(x,y,10)){
-        dots.push({x:x,y:y,eaten:false});
-      }
-    }
-  }
-  for(let i = 0; i< monsterCount; i++){
-  let rx, ry;
-  do{
-    rx = random(width);
-    ry = random(height);
-  }while(isColliding(rx,ry,20)||dist(rx,ry,px,py)<200);
-
-  monsterX.push(rx);
-  monsterY.push(ry);
-  monsterDir.push(floor(random(4)));
-  monsterColors.push(color(random(255),random(100),random(100)));
-  }
 }
 
 
