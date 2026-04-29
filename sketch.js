@@ -10,7 +10,7 @@ let monsterY = [];
 let monsterDir = [];
 let monsterColors = [];
 let monsterCount = 5;
-let mSpeed = 5;
+let mSpeed = 3;
 let gameState = "play";
 
 //무적 변수 추가
@@ -97,10 +97,10 @@ function playGame(){
   let nextY = py;
   
   //팩맨 움직임 구현
-  if(keyIsDown(LEFT_ARROW))nextX-=6;
-  if(keyIsDown(RIGHT_ARROW))nextX+=6;
-  if(keyIsDown(UP_ARROW))nextY-=6;
-  if(keyIsDown(DOWN_ARROW))nextY+=6;
+  if(keyIsDown(LEFT_ARROW))nextX-=4;
+  if(keyIsDown(RIGHT_ARROW))nextX+=4;
+  if(keyIsDown(UP_ARROW))nextY-=4;
+  if(keyIsDown(DOWN_ARROW))nextY+=4;
 
   //충돌하지 않으면, 계속이동한다.
   if(!isColliding(nextX,py,r)){
