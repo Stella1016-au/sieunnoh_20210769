@@ -105,12 +105,15 @@ function playGame(){
     isInvincible = false;
   }
 
-  level = floor(score / 100);
+  level = floor(score / 10);
   let targetMonsterCount = 5 + level;
+
   while (monsterX.length < targetMonsterCount) {
     monsterColors.push(color(random(255), random(100), random(100)));
     monsterDir.push(floor(random(4)));
-    assignSafeLocation(monsterX.length);
+
+    let newIdx = monsterX.length;
+    assignSafeLocation(newIdx);
   }
   //움직일위치 = 현재위치
   let nextX = px;
