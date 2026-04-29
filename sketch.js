@@ -13,6 +13,8 @@ let monsterCount = 5;
 let mSpeed = 3;
 let gameState = "play";
 
+let level = 0;
+
 //무적 변수 추가
 let isInvincible = false;//현재가 무적 상태인지
 let isInvincibilityEnd = 0;//무적이 끝나는 시간
@@ -91,7 +93,8 @@ function draw() {
   textSize(24);
   textAlign(LEFT,TOP);
   text("Score: "+score,50,40);
-
+  fill(0, 255, 255); 
+  text("Level: " + level, 200, 40);
   fill(255,0,0);
   text("Lives:"+lives,200,40);
 }
@@ -102,6 +105,13 @@ function playGame(){
     isInvincible = false;
   }
 
+  level = floor(score / 100);
+  let targetMonsterCount = 5 + level;
+  while (monsterX.length < targetMonsterCount) {
+    monsterColors.push(color(random(255), random(100), random(100)));
+    monsterDir.push(floor(random(4)));
+    assignSafeLocation(monsterX.length);
+  }
   //움직일위치 = 현재위치
   let nextX = px;
   let nextY = py;
@@ -176,7 +186,7 @@ function playGame(){
       let distToPacman = dist(px,py,d.x,d.y);
       if(distToPacman<r+3){
         d.eaten = true;
-        score += 10;
+        score += 1;
       }
     }
   }
