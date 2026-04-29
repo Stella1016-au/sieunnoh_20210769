@@ -17,6 +17,11 @@ let gameState = "play";
 let isInvincible = false;//현재가 무적 상태인지
 let isInvincibilityEnd = 0;//무적이 끝나는 시간
 
+//애니메이션 및 방향 변수 추가
+let mouthOpenAngle=0;
+let mouthSpeed=0.2;
+let pacmanRotation=0;
+
 //통로 좌표 설정
 const leftPassage = {x:80, y:350};
 const rightPassage = {x:1350, y:350};
@@ -92,15 +97,32 @@ function playGame(){
   if(isInvincible&&millis()>isInvincibilityEnd){
     isInvincible = false;
   }
+
   //움직일위치 = 현재위치
   let nextX = px;
   let nextY = py;
+  let isMoving=false;
   
   //팩맨 움직임 구현
-  if(keyIsDown(LEFT_ARROW))nextX-=4;
-  if(keyIsDown(RIGHT_ARROW))nextX+=4;
-  if(keyIsDown(UP_ARROW))nextY-=4;
-  if(keyIsDown(DOWN_ARROW))nextY+=4;
+  if(keyIsDown(LEFT_ARROW)){
+    nextX-=4;
+    pacmanRotation=PI;
+    isMoving=true;
+  }
+  if(keyIsDown(RIGHT_ARROW)){
+    nextX+=4;
+    pacmanRotation=0;
+    isMoving=true;
+  }
+  if(keyIsDown(UP_ARROW)){
+    nextY-=4;
+    pacmanRotation=-PI/2;
+    isMoving=true;
+  if(keyIsDown(DOWN_ARROW)){
+    nextY+=4;
+    pacmanRotation=PI/2;
+    isMoving=true;
+  }
 
   //충돌하지 않으면, 계속이동한다.
   if(!isColliding(nextX,py,r)){
