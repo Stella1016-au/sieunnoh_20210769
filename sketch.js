@@ -97,10 +97,10 @@ function playGame(){
   let nextY = py;
   
   //팩맨 움직임 구현
-  if(keyIsDown(LEFT_ARROW))nextX-=3;
-  if(keyIsDown(RIGHT_ARROW))nextX+=3;
-  if(keyIsDown(UP_ARROW))nextY-=3;
-  if(keyIsDown(DOWN_ARROW))nextY+=3;
+  if(keyIsDown(LEFT_ARROW))nextX-=6;
+  if(keyIsDown(RIGHT_ARROW))nextX+=6;
+  if(keyIsDown(UP_ARROW))nextY-=6;
+  if(keyIsDown(DOWN_ARROW))nextY+=6;
 
   //충돌하지 않으면, 계속이동한다.
   if(!isColliding(nextX,py,r)){
@@ -128,17 +128,22 @@ function playGame(){
 
 
   //콩그리기
+  let remainingDots = 0;
   for(let d of dots){
     if(!d.eaten){
+      remainingDots++;
       fill(255,184,151);
       ellipse(d.x,d.y,6,6);
-
       let distToPacman = dist(px,py,d.x,d.y);
       if(distToPacman<r+3){
         d.eaten = true;
         score += 10;
       }
     }
+  }
+
+  if(remainingDots===0){
+    gameState="win";
   }
 
   //몬스터 로직
@@ -214,25 +219,45 @@ function assignSafeLocation(index){
   monsterY[index]=ry;
 }
 
-function drawRestartButton(){
+// function drawRestartButton(){
   
-    fill(0,0,0,180);
-    rect(0,0,width,height);
+//     fill(0,0,0,180);
+//     rect(0,0,width,height);
 
-    fill(255,255,0);
-    rectMode(CENTER);
-    rect(width/2,height/2,250,80,10);
+//     fill(255,255,0);
+//     rectMode(CENTER);
+//     rect(width/2,height/2,250,80,10);
 
-    fill(0);
-    textSize(32);
-    textAlign(CENTER,CENTER);
-    text("RESTART",width/2,height/2);
-    rectMode(CORNER);
-  }
+//     fill(0);
+//     textSize(32);
+//     textAlign(CENTER,CENTER);
+//     text("RESTART",width/2,height/2);
+//     rectMode(CORNER);
+//   }
+
+function drawEndScreen(msg,msgColor){
+  fill(0, 0, 0, 200);
+  rect(0, 0, width, height);
+
+  textAlign(CENTER, CENTER);
+
+  fill(msgColor); 
+  text(msg, width / 2, height / 2 - 150);
+
+  fill(255,255,0);
+  rectMode(CENTER);
+  rect(width/2,height/2,250,80,10);
+
+  fill(0);
+  textSize(32);
+  textAlign(CENTER,CENTER);
+  text("RESTART",width/2,height/2);
+  rectMode(CORNER);
+}
 
   
 function mousePressed(){
-  if(gameState==="gameOver"){
+  if(gameState==="gameOver"|| gameState === "win"){
     if(mouseX>width/2 - 125 && mouseX<width/2 + 125&&
       mouseY>height/2 - 40 && mouseY<height/2+40){
         resetGame();
