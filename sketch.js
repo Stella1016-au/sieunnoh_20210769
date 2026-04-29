@@ -22,6 +22,10 @@ let mouthOpenAngle=0;
 let mouthSpeed=0.2;
 let pacmanRotation=0;
 
+let mouthDirection = 1; // 1이면 입을 벌리고
+let mouthMax = 0.9;      // 최대 벌어지는 각도
+let mouthMin = 0.05;     // 최소 다무는 각도
+
 //통로 좌표 설정
 const leftPassage = {x:80, y:350};
 const rightPassage = {x:1350, y:350};
@@ -118,10 +122,19 @@ function playGame(){
     nextY-=4;
     pacmanRotation=-PI/2;
     isMoving=true;
+  }
   if(keyIsDown(DOWN_ARROW)){
     nextY+=4;
     pacmanRotation=PI/2;
     isMoving=true;
+  }
+  if (isMoving) {
+    mouthOpenAngle += mouthSpeed * 0.2 * mouthDirection; 
+  if (mouthOpenAngle >= mouthMax || mouthOpenAngle <= mouthMin) {
+      mouthDirection *= -1;
+    }
+  } else {
+    mouthOpenAngle = 0.2; // 멈췄을 땐 고정
   }
 
   //충돌하지 않으면, 계속이동한다.
@@ -145,7 +158,11 @@ function playGame(){
   if(drawPacman){
     fill(255,255,0);
     if(isInvincible)fill(255,255,255,150);//무적일때 색깔변화
-    arc(px,py,r*2,r*2,PI/4,(PI*7)/4,PIE);
+
+    let startAngle = pacmanRotation + mouthOpenAngle;
+    let stopAngle = pacmanRotation + (TWO_PI - mouthOpenAngle);
+
+    arc(px,py,r*2,r*2,startAngle,stopAngle,PIE);
   }
 
 
@@ -229,6 +246,7 @@ function playGame(){
   //   py=350;
   // }//루프
   }
+
 
 function assignSafeLocation(index){
   let rx, ry, attempts = 0;
