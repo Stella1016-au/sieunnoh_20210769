@@ -91,12 +91,13 @@ function draw() {
   //상단 UI 표시 (점수 및 생명)
   fill(255);
   textSize(24);
+  textStyle(BOLD);
   textAlign(LEFT,TOP);
   text("Score: "+score,50,40);
   fill(0, 255, 255); 
-  text("Level: " + level, 200, 40);
+  text("Level: " + level, 50, 70);
   fill(255,0,0);
-  text("Lives:"+lives,200,40);
+  text("Lives:"+lives,50,100);
 }
 
 function playGame(){
@@ -199,7 +200,7 @@ function playGame(){
   }
 
   //몬스터 로직
-  for(let i = 0;i< monsterCount; i++){
+  for(let i = 0;i< monsterX.length; i++){
     let mxNextX = monsterX[i];
     let mxNextY = monsterY[i];
 
@@ -336,7 +337,7 @@ function resetGame(){
   monsterDir=[];
   monsterColors=[];
   for (let i = 0; i < monsterCount; i++) {
-    monsterColors.push(color(random(255), random(100), random(100)));
+    monsterColors.push(color(random(100,255), random(100,255), random(100,255)));
     monsterDir.push(floor(random(4)));
     assignSafeLocation(i); // 초기 위치 설정
   }
