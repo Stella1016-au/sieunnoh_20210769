@@ -13,6 +13,10 @@ let monsterCount = 5;
 let mSpeed = 2;
 let gameState = "play";
 
+//무적 변수 추가
+let isInvincible = false;//현재가 무적 상태인지
+let isInvincibilityEnd = 0;//무적이 끝나는 시간
+
 //통로 좌표 설정
 const leftPassage = {x:80, y:350};
 const rightPassage = {x:1350, y:350};
@@ -82,6 +86,10 @@ function draw() {
 }
 
 function playGame(){
+  //무적 타이머 체크
+  if(isInvincible&&millis()>isInvincibilityEnd){
+    isInvincible = false;
+  }
   //움직일위치 = 현재위치
   let nextX = px;
   let nextY = py;
@@ -103,6 +111,18 @@ function playGame(){
   //팩맨 통로 워프 로직
   if (px<30){px=rightPassage.x;py=rightPassage.y;}
   else if(px>1380){px=leftPassage.x;py=leftPassage.y;}
+
+  //팩맨 그리기(무적일때 깜빡임)
+  let drawPacman = true;
+  if(isInvincible&&frameCount%10<5){
+    drawPacman=false;
+  }
+
+  if(drawPacman){
+    fill(255,255,0);
+    if(isInvincible)fill(255,255,255,150);//무적일때 색깔변화
+    arc(px,py,r*2,r*2,PI/4,(PI*7)/4,PIE);
+  }
 
   fill(255,255,0,255);
   arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
