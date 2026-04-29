@@ -10,7 +10,7 @@ let monsterY = [];
 let monsterDir = [];
 let monsterColors = [];
 let monsterCount = 5;
-let mSpeed = 2;
+let mSpeed = 5;
 let gameState = "play";
 
 //무적 변수 추가
@@ -213,6 +213,7 @@ function assignSafeLocation(index){
 }
 
 function drawRestartButton(){
+  
     fill(0,0,0,180);
     rect(0,0,width,height);
 
