@@ -72,7 +72,9 @@ function draw() {
   if(gameState === "play"){
     playGame();//실제 게임 로직
   }else if(gameState === "gameOver"){
-    drawRestartButton();
+    drawEndScreen("GAME OVER", color(255, 0, 0));
+  }else if(gameState === "win"){
+    drawEndScreen("YOU WIN!", color(0, 255, 0)); 
   }
 
   //상단 UI 표시 (점수 및 생명)
