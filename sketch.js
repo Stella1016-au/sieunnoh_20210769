@@ -124,8 +124,6 @@ function playGame(){
     arc(px,py,r*2,r*2,PI/4,(PI*7)/4,PIE);
   }
 
-  fill(255,255,0,255);
-  arc(px,py,r*2,r*2,PI/4,PI*7/4,PIE);//팩맨
 
   //콩그리기
   for(let d of dots){
@@ -182,25 +180,25 @@ function playGame(){
     rect(monsterX[i], monsterY[i], 30, 30, 5);
     rectMode(CORNER);
 
-    // 팩맨과 충돌 체크
-    if (dist(px, py, monsterX[i], monsterY[i]) < r + 15) {
-      lives-=1;//생명 1 감소
+    //충돌판정(무적X)
+    if(!isInvincible&&dist(px,py,monsterX[i],monsterY[i])<r+15){
+      lives-=1;
 
       if(lives>0){
-        //생명이 남았다면 위치만 리셋
-        px=80;
-        py=350;
+        isInvincible=true;
+        isInvincibilityEnd=millis()+3000;
       }else{
-        //생명이 0이면 게임오버
         gameState="gameOver";
       }
-      
     }
+
+    // 팩맨과 충돌 체크
+    
   }
-  if(px<0||px>1408){
-    px=80;
-    py=350;
-  }//루프
+  // if(px<0||px>1408){
+  //   px=80;
+  //   py=350;
+  // }//루프
   }
 
 function assignSafeLocation(index){
