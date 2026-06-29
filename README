@@ -1,0 +1,40 @@
+# Pac-Man (p5.js)
+
+클래식 팩맨을 p5.js(JavaScript)로 직접 구현한 아케이드 게임. 미로 충돌, 워프 터널, 동적 난이도, 상태 머신 등 게임 로직 전반을 라이브러리 없이 손으로 구현했다.
+
+## 플레이
+
+- 조작: 방향키(←↑→↓)로 이동
+- 목표: 몬스터를 피해 미로의 모든 콩을 먹으면 승리
+- 데모 영상: https://youtu.be/bsqiAU-1_P0
+
+## 구현 포인트
+
+**원–사각형(Circle–AABB) 충돌 판정**
+단순 사각형 겹침이 아니라, 각 벽 안에서 팩맨 중심과 가장 가까운 점을 `constrain`으로 구한 뒤 그 거리를 반지름과 비교해 충돌을 판정한다. 미로 어떤 모서리에서도 정확히 막히도록 설계.
+
+**워프 터널**
+좌우 화면 끝을 연결해, 팩맨과 몬스터가 한쪽 끝으로 나가면 반대편 통로로 순간이동한다.
+
+**점수 기반 동적 난이도**
+`level = floor(score / 10)` — 점수가 오를수록 레벨이 올라가고 등장 몬스터 수가 늘어난다. 진행할수록 압박이 커지는 구조.
+
+**게임 상태 머신**
+`play / gameOver / win` 세 가지 상태로 전체 흐름을 관리하고, 종료 화면에서 클릭으로 재시작.
+
+**무적 프레임(invincibility frames)**
+피격 시 생명을 1 잃고 3초간 무적 + 깜빡임 처리를 줘, 한 번의 충돌로 연속 피격되는 것을 방지한다.
+
+**몬스터 이동**
+벽 충돌을 인식하는 랜덤 워크 — 확률적으로 방향을 전환하며 미로를 돌아다닌다. (추격 AI가 아닌 랜덤 이동 방식)
+
+## 기술 스택
+
+- p5.js (JavaScript)
+- Canvas 1408 × 718
+
+---
+
+## Tech summary (EN)
+
+A classic Pac-Man arcade game built from scratch in **p5.js (JavaScript)** — no game framework. Key implementations: circle-vs-AABB collision detection (closest-point method), wrap-around warp tunnels, score-based dynamic difficulty scaling, a `play / gameOver / win` state machine, and post-hit invincibility frames. Enemies use wall-aware random-walk movement.
